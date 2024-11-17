@@ -1,10 +1,16 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import TopBar from "./components/TopBar.tsx";
+
 function App() {
 
   return (
-    <h1 className="text-center text-green-500 font-bold">
-        HELLO FROM TAILWIND
-    </h1>
-  )
+    <Router>
+        <Routes>
+          <Route path="/" element={<TopBar />} />
+        </Routes>
+    </Router>
+);
 }
 
 export default App
