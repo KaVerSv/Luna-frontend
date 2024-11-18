@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import TopBar from "./components/TopBar.tsx";
+import Shop from "./pages/Shop.tsx";
 
 function App() {
 
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<TopBar />} />
+          <Route path="/" element={<Shop />} />
         </Routes>
     </Router>
 );
