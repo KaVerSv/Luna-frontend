@@ -115,7 +115,8 @@ const TopBar = () => {
                         <img src="/icons/cart-shopping-white.svg" alt="Cart" className="h-6 ml-2" />
                     </a>
                 </nav>
-                <div className="relative">
+                <div className="relative flex items-center">
+                    <img src="/icons/magnifying-glass-solid.svg" alt="Cart" className="h-6 mr-2" />
                     <input
                         type="text"
                         placeholder="search"
