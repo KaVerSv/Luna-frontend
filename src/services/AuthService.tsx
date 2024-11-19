@@ -57,6 +57,25 @@ class AuthService {
     const userString = localStorage.getItem("user");
     return userString ? (JSON.parse(userString) as User) : null;
   }
+
+    // Sprawdzenie, czy użytkownik jest zalogowany
+    isLogged(): boolean {
+      const user = this.getCurrentUser();
+      if (!user) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+  // Sprawdzenie, czy użytkownik jest zalogowany
+  ensureAuthenticated(): void {
+    const user = this.getCurrentUser();
+    if (!user) {
+      // Przekierowanie na stronę logowania
+      window.location.href = "/login";
+    }
+  }
 }
 
 export default new AuthService();
