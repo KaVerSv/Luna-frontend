@@ -71,12 +71,10 @@ const BookPage: React.FC = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="shop">
       <Background>
         <TopBar />
         {bookInfo && <BookDetails bookInfo={bookInfo} />}
       </Background>
-    </div>
   );
 };
 

@@ -28,12 +28,10 @@ const Shop: React.FC = () => {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div className="shop">
-            <Background>
-                <TopBar />
-                <RecommendedBooks books={books} />
-            </Background>
-        </div>
+        <Background>
+            <TopBar />
+            <RecommendedBooks books={books} />
+        </Background>
     );
 };
 

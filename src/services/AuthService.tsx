@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/v1/auth/";
+const API_URL_reset = "http://localhost:8080/forgotPassword/";
 
 // Typy danych
 interface LoginResponse {
@@ -9,7 +10,7 @@ interface LoginResponse {
 }
 
 interface RegisterData {
-  name: string;
+  firstName: string;
   surname: string;
   username: string;
   email: string;
@@ -47,9 +48,14 @@ class AuthService {
     }
   }
 
-  // Rejestracja użytkownika
-  async register(data: RegisterData): Promise<void> {
-    await axios.post(`${API_URL}register`, data);
+  async register(registerData: RegisterData) {
+    try {
+      // Przykład: wywołanie API
+      const response = await axios.post(`${API_URL}register`, registerData);
+      return response; // Zwracamy całą odpowiedź, która zawiera 'data'
+    } catch (error) {
+      throw error; // Rzucamy wyjątek w przypadku błędu
+    }
   }
 
   // Pobranie aktualnego użytkownika
@@ -76,6 +82,47 @@ class AuthService {
       window.location.href = "/login";
     }
   }
+
+  async passwordReset(email: string) {
+    try {
+      const encodedEmail = encodeURIComponent(email);
+      const response = await axios.post(`${API_URL_reset}passwordRecoveryRequest/${encodedEmail}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async postPasswordReset(password: string, repeatedPassword: string): Promise<void> {
+    try {
+      // Odczytanie OTP z adresu URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const otp = urlParams.get("otp");
+  
+      if (!otp) {
+        throw new Error("OTP not found in the URL.");
+      }
+  
+      // Przygotowanie danych do wysłania w ciele żądania
+      const data = {
+        password,
+        repeatedPassword,
+      };
+  
+      // Wysłanie żądania POST z OTP w nagłówku
+      const response = await axios.post(`${API_URL_reset}changePassword`, data, {
+        headers: {
+          "X-OTP": otp, // Dodanie OTP do nagłówka
+        },
+      });
+  
+      console.log("Password reset successful:", response.data);
+    } catch (error) {
+      console.error("Error during password reset:", error);
+      throw error; // Rzucamy błąd, aby aplikacja mogła go obsłużyć
+    }
+  }
+  
 }
 
 export default new AuthService();
