@@ -7,6 +7,8 @@ import Register from './pages/Register.tsx';
 import CheckEmailPage from './pages/CheckEmailPage.tsx';
 import ForogotPasswordPage from './pages/ForgotPasswordPage.tsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.tsx';
+import Cart from './pages/Cart.tsx';
+import Library from './pages/Library.tsx';
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
           <Route path="/checkEmail" element={<CheckEmailPage/>} />
           <Route path="/forgotPassword" element={<ForogotPasswordPage/>} />
           <Route path="/resetPassword" element={<ResetPasswordPage/>} />
+          <Route path="/cart" element={<Cart/>} />
+          <Route path="/library" element={<Library/>} />
         </Routes>
     </Router>
 );

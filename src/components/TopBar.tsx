@@ -33,7 +33,7 @@ const TopBar = () => {
                     }
                 }
             } catch (error) {
-                if (axios.isAxiosError(error) && error.response?.status === 403) {
+                if (axios.isAxiosError(error)) {
                     // Jeśli użytkownik nie jest zalogowany, ustaw stan domyślny
                     setUsername(null);
                     setAdmin(false);

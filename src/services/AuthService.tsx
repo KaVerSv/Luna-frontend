@@ -64,15 +64,15 @@ class AuthService {
     return userString ? (JSON.parse(userString) as User) : null;
   }
 
-    // Sprawdzenie, czy użytkownik jest zalogowany
-    isLogged(): boolean {
-      const user = this.getCurrentUser();
-      if (!user) {
-        return false;
-      } else {
-        return true;
-      }
+  // Sprawdzenie, czy użytkownik jest zalogowany
+  isLogged(): boolean {
+    const user = this.getCurrentUser();
+    if (!user) {
+      return false;
+    } else {
+      return true;
     }
+  }
 
   // Sprawdzenie, czy użytkownik jest zalogowany
   ensureAuthenticated(): void {
