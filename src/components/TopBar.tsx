@@ -4,12 +4,19 @@ import authService from "../services/AuthService";
 import authHeader from "../services/AuthHeader";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {BookItem} from "../models/Book"
+import { BookService } from '../services/BookService';
 
 const TopBar = () => {
     const [admin, setAdmin] = useState(false);
     const [username, setUsername] = useState<string | null>(null);
     const [error, setError] = useState<Error | AxiosError | null>(null);
     const [loading, setLoading] = useState(true);
+    //search
+    const [searchTerm, setSearchTerm] = useState('');
+    const [suggestions, setSuggestions] = useState<BookItem[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    //auth
     const config = {
         headers: authHeader()
     };
@@ -75,6 +82,38 @@ const TopBar = () => {
         );
     }
 
+    //search
+    const fetchSuggestions = async (keyword: string) => {
+        if (!keyword) {
+            setSuggestions([]);
+            return;
+        }
+        try {
+            const response = await axios.get(`http://localhost:8080/api/books/search?keyword=${keyword}`);
+            setSuggestions(response.data); // Dane są zgodne z odpowiedzią API
+            console.log(response.data); // Debugowanie odpowiedzi
+        } catch (error) {
+            console.error("Error fetching search suggestions:", error);
+        }
+    };
+    
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const keyword = e.target.value;
+        setSearchTerm(keyword);
+        setShowSuggestions(!!keyword);
+        fetchSuggestions(keyword);
+    };
+
+    const handleSuggestionClick = (id: number) => {
+        window.location.href = `/BookPage?id=${id}`;
+    };
+
+    const handleSearch = () => {
+        window.location.href = `/search/results?query=${searchTerm}`;
+    };
+
+
     return (
         <div className="bg-gray-900">
             <ToastContainer />
@@ -119,9 +158,39 @@ const TopBar = () => {
                     <img src="/icons/magnifying-glass-solid.svg" alt="Cart" className="h-6 mr-2" />
                     <input
                         type="text"
-                        placeholder="search"
+                        placeholder="Search"
+                        value={searchTerm}
+                        onChange={handleInputChange}
+                        onFocus={() => setShowSuggestions(true)}
+                        onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                         className="bg-gray-700 text-gray-300 placeholder-gray-500 rounded px-4 py-2 focus:outline-none"
                     />
+                    <button
+                        onClick={handleSearch}
+                        className="ml-2 px-4 py-2 bg-blue-600 text-white rounded"
+                    >
+                        Search
+                    </button>
+                    {showSuggestions && suggestions.length > 0 && (
+                        <ul className="absolute top-full left-0 w-full bg-gray-800 text-white border border-gray-700 rounded mt-1 z-10">
+                            {suggestions.map((item) => (
+                                <li
+                                    key={item.book.id}
+                                    className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                                    onClick={() => handleSuggestionClick(item.book.id)}
+                                >
+                                    {item.book.title} 
+                                    <span className="text-white ml-2">
+                                        {BookService.calculateDiscountedPrice(item)} zł
+                                    </span>
+                                    {item.discount && item.discount.percentage && (
+                                        <span className="text-green-400"> (-{item.discount.percentage}% off)</span>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
                 </div>
             </div>
         </div>
