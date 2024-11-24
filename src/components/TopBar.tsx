@@ -110,7 +110,7 @@ const TopBar = () => {
     };
 
     const handleSearch = () => {
-        window.location.href = `/search/results?query=${searchTerm}`;
+        window.location.href = `/search?query=${searchTerm}&pageNum=0&pageSize=20`;
     };
 
 

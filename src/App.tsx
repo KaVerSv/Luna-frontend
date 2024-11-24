@@ -9,6 +9,8 @@ import ForogotPasswordPage from './pages/ForgotPasswordPage.tsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.tsx';
 import Cart from './pages/Cart.tsx';
 import Library from './pages/Library.tsx';
+import SearchResults from './pages/SearchResults.tsx';
+
 
 function App() {
 
@@ -25,6 +27,7 @@ function App() {
           <Route path="/resetPassword" element={<ResetPasswordPage/>} />
           <Route path="/cart" element={<Cart/>} />
           <Route path="/library" element={<Library/>} />
+          <Route path="/search" element={<SearchResults/>} />
         </Routes>
     </Router>
 );
