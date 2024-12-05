@@ -10,6 +10,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage.tsx';
 import Cart from './pages/Cart.tsx';
 import Library from './pages/Library.tsx';
 import SearchResults from './pages/SearchResults.tsx';
+import CheckOrder from './pages/CheckOrder.tsx';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/cart" element={<Cart/>} />
           <Route path="/library" element={<Library/>} />
           <Route path="/search" element={<SearchResults/>} />
+          <Route path="/confirm" element={<CheckOrder/>} />
         </Routes>
     </Router>
 );
