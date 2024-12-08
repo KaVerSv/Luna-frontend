@@ -11,6 +11,8 @@ import Cart from './pages/Cart.tsx';
 import Library from './pages/Library.tsx';
 import SearchResults from './pages/SearchResults.tsx';
 import CheckOrder from './pages/CheckOrder.tsx';
+import OrderHistory from './pages/OrderHistory.tsx';
+import CreateDiscount from './pages/CreateDiscount.tsx';
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
           <Route path="/library" element={<Library/>} />
           <Route path="/search" element={<SearchResults/>} />
           <Route path="/confirm" element={<CheckOrder/>} />
+          <Route path="/orderHistory" element={<OrderHistory />} />
+          <Route path="/createDiscount" element={<CreateDiscount />} />
         </Routes>
     </Router>
 );
