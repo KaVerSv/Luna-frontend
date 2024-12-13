@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BookItem } from '../models/Book';
 import TopBar from '../components/TopBar';
 import Background from '../components/Background';
+import authHeader from '../services/AuthHeader';
 
 const CreateDiscount = () => {
   const [books, setBooks] = useState<BookItem[]>([]);
@@ -19,7 +20,7 @@ const CreateDiscount = () => {
   const searchBooks = (keyword: string) => {
     if (!keyword.trim()) return;
 
-    fetch(`http://localhost:8080/search?keyword=${keyword}`)
+    fetch(`http://localhost:8080/api/books/search?keyword=${keyword}`)
       .then(response => response.json())
       .then((data: BookItem[]) => setBooks(data))
       .catch(err => console.error('Error searching books', err));
@@ -38,6 +39,7 @@ const CreateDiscount = () => {
       }
       return prev;
     });
+    setBooks([]); // Clear search results after selection
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,10 +55,11 @@ const CreateDiscount = () => {
       books: selectedBooks.map(book => book.book.id),
     };
 
-    fetch('http://localhost:8080/discounts/createForBooks', {
+    // Submit to the backend to create the discount
+    fetch('http://localhost:8080/api/discounts/createForBooks', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(discountData),
     })
@@ -64,8 +67,7 @@ const CreateDiscount = () => {
       .then(() => {
         toast.success('Discount created successfully!');
         setDiscount({ percentage: '', startDate: '', endDate: '', name: '' });
-        setSelectedBooks([]);
-        setBooks([]);
+        setSelectedBooks([]); // Clear selected books
       })
       .catch((error) => {
         toast.error('Failed to create discount!');
